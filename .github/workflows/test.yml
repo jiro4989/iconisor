@@ -102,8 +102,15 @@ jobs:
       - name: Initialize custom JRE
         run: ./jlink.sh jre
 
-      - name: Build
+      - name: Build (unix)
         run: lein uberjar
+        if: matrix.os != 'windows'
+
+      - name: Build (windows)
+        run: lein.bat uberjar
+        if: matrix.os == 'windows'
+        shell: cmd
+
       - name: Create artifact
         run: |
           mkdir -p ${{ env.app-name }}/
