@@ -8,6 +8,14 @@
   :main iconisor.core
   ;:main ^:skip-aot iconisor.core
   :target-path "target/%s"
+  :plugins [[lein-jlink "0.3.0"]]
+  :middleware [[leiningen.jlink/middleware]]
+  :jlink-modules ["javafx.base"
+                  "javafx.controls"
+                  "javafx.swing"
+                  "javafx.graphics"
+                  "javafx.fxml"]
+  :jlink-module-paths ["./jmods/javafx-jmods-14.0.1"]
   :profiles {:uberjar {:aot :all
                        :jvm-opts ["-Dclojure.compiler.direct-linking=true"]
                        :prep-tasks ["compile"]
