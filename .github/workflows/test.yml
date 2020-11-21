@@ -71,6 +71,7 @@ jobs:
       - name: Initialize custom JRE (windows)
         run: lein.bat jlink init
         if: matrix.os == 'windows'
+        shell: cmd
 
       # Lint
       - run: lein cljfmt check
