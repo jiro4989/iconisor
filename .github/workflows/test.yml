@@ -13,6 +13,7 @@ on:
       - 'docs/*'
 
 env:
+  app-name: iconisor
   javafx-version: '14.0.1'
 
 defaults:
@@ -21,14 +22,35 @@ defaults:
 
 jobs:
   test:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v2
+      - run: lein test
+      - run: lein cloverage --codecov
+      - uses: codecov/codecov-action@v1
+
+  linter:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        cmd:
+          - 'cljfmt check'
+          - 'eastwood'
+          - 'kibit'
+    steps:
+      - uses: actions/checkout@v2
+      - run: lein ${{ matrix.cmd }}
+
+  build:
     runs-on: ${{ matrix.runs-on }}
     strategy:
       matrix:
         include:
-          # - runs-on: windows-latest
-          #   os: windows
-          # - runs-on: macOS-latest
-          #   os: osx
+          - runs-on: windows-latest
+            os: windows
+          - runs-on: macOS-latest
+            os: osx
           - runs-on: ubuntu-latest
             os: linux
     steps:
@@ -66,30 +88,11 @@ jobs:
             unzip jmods.zip
           )
 
-      - name: Initialize custom JRE (unix)
-        run: lein jlink init
-        if: matrix.os != 'windows'
-      - name: Initialize custom JRE (windows)
-        run: lein.bat jlink init
-        if: matrix.os == 'windows'
-        shell: cmd
+      - name: Initialize custom JRE
+        run: ./jlink.sh jre
 
-      # Lint
-      - run: lein cljfmt check
-        if: matrix.runs-on == 'ubuntu-latest'
-      - run: lein eastwood
-        if: matrix.runs-on == 'ubuntu-latest'
-      - run: lein kibit
-        if: matrix.runs-on == 'ubuntu-latest'
-
-      - name: Test
-        run: lein test
-        if: matrix.runs-on == 'ubuntu-latest'
       - name: Build
-        run: lein jlink assemble
-
-      - name: Coverage
-        run: lein cloverage --codecov
-        if: matrix.runs-on == 'ubuntu-latest'
-      - uses: codecov/codecov-action@v1
-        if: matrix.runs-on == 'ubuntu-latest'
+        run: lein uberjar
+      - name: Create artifact
+        run: |
+          mv jre .github/dist/* LICENSE target/uberjar/${{ env.app-name }}.jar ${{ env.app-name }}/
