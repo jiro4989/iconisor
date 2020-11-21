@@ -114,4 +114,5 @@ jobs:
         run: lein uberjar
       - name: Create artifact
         run: |
+          mkdir -p ${{ env.app-name }}/
           mv jre .github/dist/* LICENSE target/uberjar/${{ env.app-name }}.jar ${{ env.app-name }}/
