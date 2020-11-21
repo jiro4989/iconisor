@@ -20,18 +20,6 @@ defaults:
     shell: bash
 
 jobs:
-  linter:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        cmd:
-          - 'cljfmt check'
-          - 'eastwood'
-          - 'kibit'
-    steps:
-      - uses: actions/checkout@v2
-      - run: lein ${{ matrix.cmd }}
-
   test:
     runs-on: ${{ matrix.runs-on }}
     strategy:
@@ -61,6 +49,12 @@ jobs:
 
       - name: Initialize custom JRE
         run: lein jlink init
+
+      # Lint
+      - run: lein cljfmt check
+      - run: lein eastwood
+      - run: lein kibit
+
       - name: Test
         run: lein test
       - name: Build
