@@ -15,7 +15,7 @@
                   "javafx.swing"
                   "javafx.graphics"
                   "javafx.fxml"]
-  :jlink-module-paths ["/home/vagrant/src/github.com/jiro4989/iconisor/jmods/javafx-jmods-14.0.1"]
+  :jlink-module-paths ["./jmods/javafx-jmods-14.0.1"]
   :jlink-image-path "image"
   :profiles {:uberjar {:aot :all
                        :jvm-opts ["-Dclojure.compiler.direct-linking=true"]
