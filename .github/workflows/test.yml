@@ -27,8 +27,8 @@ jobs:
         include:
           - runs-on: windows-latest
             os: windows
-          - runs-on: macOS-latest
-            os: osx
+          # - runs-on: macOS-latest
+          #   os: osx
           - runs-on: ubuntu-latest
             os: linux
     steps:
@@ -38,6 +38,7 @@ jobs:
           cli: '1.10.1.469'
           lein: 2.9.4
           boot: latest
+        if: matrix.os != 'windows'
       - name: Install openjfx jmods
         run: |
           mkdir -p jmods
