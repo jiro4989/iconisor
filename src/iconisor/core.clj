@@ -1,6 +1,6 @@
 (ns iconisor.core
   (:require [cljfx.api :as fx])
-  ; (:gen-class)
+  (:gen-class)
   )
 
 (defn -main [& args]

@@ -5,9 +5,11 @@
             :url "https://www.eclipse.org/legal/epl-2.0/"}
   :dependencies [[org.clojure/clojure "1.10.1"]
                  [cljfx "1.7.10"]]
-  :main ^:skip-aot iconisor.core
+  :main iconisor.core
+  ;:main ^:skip-aot iconisor.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all
                        :jvm-opts ["-Dclojure.compiler.direct-linking=true"]
                        :prep-tasks ["compile"]
-                       :uberjar-name "iconisor.jar"}})
+                       :uberjar-name "iconisor.jar"
+                       :injections [(javafx.application.Platform/exit)]}})
