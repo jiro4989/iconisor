@@ -55,12 +55,6 @@ jobs:
             request.urlretrieve(url, file)
         shell: python
         if: matrix.os == 'windows'
-      - name: Set PATH (windows)
-        run: |
-          mkdir -p $HOME/bin
-          mv lein.bat ~/bin/
-          echo "PATH=$PATH:$HOME/bin" >> $GITHUB_ENV
-        if: matrix.os == 'windows'
 
       - name: Install openjfx jmods
         run: |
@@ -71,8 +65,12 @@ jobs:
             unzip jmods.zip
           )
 
-      - name: Initialize custom JRE
+      - name: Initialize custom JRE (unix)
         run: lein jlink init
+        if: matrix.os != 'windows'
+      - name: Initialize custom JRE (windows)
+        run: lein.bat jlink init
+        if: matrix.os == 'windows'
 
       # Lint
       - run: lein cljfmt check
