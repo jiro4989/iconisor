@@ -52,7 +52,9 @@ jobs:
           java-version: '14'
           java-package: jdk
           architecture: x64
-      - run: lein ${{ matrix.cmd }}
+      - name: Install xvfb
+        run: sudo apt install -y xvfb
+      - run: xvfb-run lein ${{ matrix.cmd }}
 
   build:
     runs-on: ${{ matrix.runs-on }}
