@@ -33,8 +33,6 @@ jobs:
           architecture: x64
       - name: Install xvfb
         run: sudo apt install -y xvfb
-      - name: Test
-        run: ./gradlew test
       - run: xvfb-run lein test
       - run: lein cloverage --codecov
       - uses: codecov/codecov-action@v1
