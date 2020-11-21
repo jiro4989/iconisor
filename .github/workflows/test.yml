@@ -34,7 +34,7 @@ jobs:
       - name: Install xvfb
         run: sudo apt install -y xvfb
       - run: xvfb-run lein test
-      - run: lein cloverage --codecov
+      - run: xvfb-run lein cloverage --codecov
       - uses: codecov/codecov-action@v1
 
   linter:
