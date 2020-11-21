@@ -53,6 +53,7 @@ jobs:
             url = elem[0] % elem[1]
             file = elem[1]
             request.urlretrieve(url, file)
+            os.system("lein.bat self-install")
         shell: python
         if: matrix.os == 'windows'
 
