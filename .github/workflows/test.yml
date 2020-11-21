@@ -26,6 +26,7 @@ jobs:
     continue-on-error: true
     steps:
       - uses: actions/checkout@v2
+      - run: lein deps
       - run: lein test
       - run: lein cloverage --codecov
       - uses: codecov/codecov-action@v1
@@ -40,6 +41,7 @@ jobs:
           - 'kibit'
     steps:
       - uses: actions/checkout@v2
+      - run: lein deps
       - run: lein ${{ matrix.cmd }}
 
   build:
