@@ -1,0 +1,69 @@
+name: test
+
+on:
+  push:
+    paths-ignore:
+      - 'LICENSE'
+      - 'README.*'
+      - 'docs/*'
+  pull_request:
+    paths-ignore:
+      - 'LICENSE'
+      - 'README.*'
+      - 'docs/*'
+
+env:
+  javafx-version: '14.0.1'
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    needs: before
+    steps:
+      - uses: actions/checkout@v2
+      - run: lein test
+      - run: lein cloverage --codecov
+      - uses: codecov/codecov-action@v1
+
+  linter:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        cmd:
+          - 'cljfmt check'
+          - 'eastwood'
+          - 'kibit'
+    steps:
+      - uses: actions/checkout@v2
+      - run: lein ${{ matrix.cmd }}
+
+  jlink:
+    runs-on: ${{ matrix.runs-on }}
+    strategy:
+      matrix:
+        include:
+          - runs-on: windows-latest
+            os: windows
+          - runs-on: macOS-latest
+            os: osx
+          - runs-on: ubuntu-latest
+            os: linux
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install openjfx jmods
+        run: |
+          mkdir -p jmods
+          curl -o jmods/jmods.zip -sSL https://download2.gluonhq.com/openjfx/${{ env.javafx-version }}/openjfx-${{ env.javafx-version }}_${{ matrix.os }}-x64_bin-jmods.zip
+          (
+            cd jmods
+            unzip jmods.zip
+          )
+
+      - name: Build
+        run: |
+          lein jlink init
+          lein jlink assemble
