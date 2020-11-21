@@ -67,7 +67,14 @@ jobs:
             unzip jmods.zip
           )
 
+      - name: Initialize custom JRE
+        run: lein jlink init
+      - name: Test
+        run: lein test
       - name: Build
-        run: |
-          lein jlink init
-          lein jlink assemble
+        run: lein jlink assemble
+
+      - name: Coverage
+        run: lein cloverage --codecov
+      - uses: codecov/codecov-action@v1
+        if: matrix.runs-on == 'ubuntu-latest'
