@@ -8,19 +8,10 @@
   :main iconisor.core
   ;:main ^:skip-aot iconisor.core
   :target-path "target/%s"
-  :plugins [[lein-jlink "0.3.1"]
-            [lein-cloverage "1.2.0"]
+  :plugins [[lein-cloverage "1.2.0"]
             [lein-cljfmt "0.7.0"]
             [jonase/eastwood "0.3.10"]
             [lein-kibit "0.1.8"]]
-  :middleware [leiningen.jlink/middleware]
-  :jlink-modules ["javafx.base"
-                  "javafx.controls"
-                  "javafx.swing"
-                  "javafx.graphics"
-                  "javafx.fxml"]
-  :jlink-module-paths ["./jmods/javafx-jmods-14.0.1"]
-  :jlink-image-path "image"
   :profiles {:uberjar {:aot :all
                        :jvm-opts ["-Dclojure.compiler.direct-linking=true"]
                        :prep-tasks ["compile"]
