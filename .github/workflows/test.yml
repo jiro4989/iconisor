@@ -47,7 +47,11 @@ jobs:
           - 'kibit'
     steps:
       - uses: actions/checkout@v2
-      - run: lein deps
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '14'
+          java-package: jdk
+          architecture: x64
       - run: lein ${{ matrix.cmd }}
 
   build:
