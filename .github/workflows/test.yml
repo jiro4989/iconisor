@@ -52,8 +52,11 @@ jobs:
 
       # Lint
       - run: lein cljfmt check
+        if: matrix.runs-on == 'ubuntu-latest'
       - run: lein eastwood
+        if: matrix.runs-on == 'ubuntu-latest'
       - run: lein kibit
+        if: matrix.runs-on == 'ubuntu-latest'
 
       - name: Test
         run: lein test
