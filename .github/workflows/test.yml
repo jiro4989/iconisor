@@ -26,7 +26,11 @@ jobs:
     continue-on-error: true
     steps:
       - uses: actions/checkout@v2
-      - run: lein deps
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '14'
+          java-package: jdk
+          architecture: x64
       - run: lein test
       - run: lein cloverage --codecov
       - uses: codecov/codecov-action@v1
