@@ -49,10 +49,10 @@ jobs:
     strategy:
       matrix:
         include:
-          - runs-on: windows-latest
-            os: windows
-          - runs-on: macOS-latest
-            os: osx
+          # - runs-on: windows-latest
+          #   os: windows
+          # - runs-on: macOS-latest
+          #   os: osx
           - runs-on: ubuntu-latest
             os: linux
     steps:
