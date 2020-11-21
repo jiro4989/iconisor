@@ -55,10 +55,13 @@ jobs:
         include:
           - runs-on: windows-latest
             os: windows
+            lein_cmd: lein.bat
           - runs-on: macOS-latest
             os: osx
+            lein_cmd: lein
           - runs-on: ubuntu-latest
             os: linux
+            lein_cmd: lein
     steps:
       - uses: actions/checkout@v2
 
@@ -103,7 +106,8 @@ jobs:
         run: ./jlink.sh jre
 
       - name: Build
-        run: lein uberjar
+        run: ${{ matrix.lein_cmd }} uberjar
+
       - name: Create artifact
         run: |
           mkdir -p ${{ env.app-name }}/
