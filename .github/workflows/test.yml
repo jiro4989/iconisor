@@ -29,8 +29,8 @@ jobs:
             os: windows
           # - runs-on: macOS-latest
           #   os: osx
-          - runs-on: ubuntu-latest
-            os: linux
+          # - runs-on: ubuntu-latest
+          #   os: linux
     steps:
       - uses: actions/checkout@v2
 
@@ -84,10 +84,12 @@ jobs:
 
       - name: Test
         run: lein test
+        if: matrix.runs-on == 'ubuntu-latest'
       - name: Build
         run: lein jlink assemble
 
       - name: Coverage
         run: lein cloverage --codecov
+        if: matrix.runs-on == 'ubuntu-latest'
       - uses: codecov/codecov-action@v1
         if: matrix.runs-on == 'ubuntu-latest'
