@@ -130,8 +130,8 @@ jobs:
         with:
           name: artifact-${{ matrix.os }}
           path: |
-            ${{ env.app-name }}_${{ matrix.os }}/*.tar.gz
-            ${{ env.app-name }}_${{ matrix.os }}/*.zip
+            ${{ env.app-name }}_${{ matrix.os }}.tar.gz
+            ${{ env.app-name }}_${{ matrix.os }}.zip
         if: startsWith(github.ref, 'refs/tags/')
 
   create-release:
